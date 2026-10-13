@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  color: #f4f2e9;
+  background: #17211f;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --ink: #f4f2e9;
+  --muted: #abb7af;
+  --line: rgb(244 242 233 / 18%);
+  --accent: #e5a36c;
+  --mono: 'DM Mono', Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { width: 100%; height: 100%; margin: 0; }
+body { min-width: 320px; overflow: hidden; }
+button, a { font: inherit; }
+
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 52% 48%, #38433c 0%, #202c28 52%, #17211f 100%);
+}
+
+.scene-canvas { position: absolute; inset: 0; z-index: -1; display: block; width: 100%; height: 100%; outline: none; }
+.scene-grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .2;
+  background-image: linear-gradient(rgb(244 242 233 / 7%) 1px, transparent 1px), linear-gradient(90deg, rgb(244 242 233 / 7%) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(transparent, #000 26%, #000 75%, transparent);
+}
+
+.topbar, .controlbar { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 4.2vw; }
+.topbar { top: 0; height: 76px; border-bottom: 1px solid var(--line); }
+.wordmark { display: inline-flex; gap: 12px; align-items: center; color: var(--ink); font: 500 11px var(--mono); letter-spacing: .08em; text-decoration: none; }
+.wordmark b { color: var(--accent); font-weight: 400; }
+.wordmark-mark { display: grid; width: 28px; aspect-ratio: 1; place-items: center; border: 1px solid var(--accent); color: var(--accent); font: 500 14px Georgia, serif; }
+.telemetry { display: flex; gap: 10px; align-items: center; color: var(--muted); font: 11px var(--mono); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px rgb(229 163 108 / 55%); }
+.status-dot[data-state='ready'] { background: #9fc8a8; box-shadow: 0 0 12px rgb(159 200 168 / 50%); }
+.status-dot[data-state='error'] { background: #f07867; box-shadow: 0 0 12px rgb(240 120 103 / 50%); }
+.status-dot[data-state='vr'] { background: #a9c8dc; box-shadow: 0 0 12px rgb(169 200 220 / 55%); }
+.telemetry-divider { height: 14px; border-left: 1px solid var(--line); margin: 0 4px; }
+
+.scene-label { position: absolute; left: 8.3vw; top: 29%; pointer-events: none; text-shadow: 0 2px 24px rgb(0 0 0 / 24%); }
+.eyebrow, .readout-key { color: var(--accent); font: 11px var(--mono); letter-spacing: .06em; }
+.eyebrow span { padding: 0 6px; color: var(--muted); }
+h1 { margin: 14px 0 6px; font: 500 clamp(38px, 5vw, 64px) Georgia, 'Times New Roman', serif; letter-spacing: 0; }
+.scene-meta { margin: 0; color: var(--muted); font-size: 12px; }
+
+.load-state { position: absolute; left: 8.3vw; bottom: 116px; width: min(280px, 50vw); color: var(--muted); font: 10px var(--mono); }
+.load-line { display: block; height: 2px; margin-bottom: 12px; overflow: hidden; background: rgb(244 242 233 / 22%); }
+.load-line span { display: block; width: 8%; height: 100%; background: var(--accent); transition: width .25s ease; }
+.error-state { position: absolute; left: 8.3vw; bottom: 120px; display: flex; gap: 12px; max-width: min(480px, 82vw); padding: 16px 20px; border-left: 2px solid #f07867; background: rgb(20 28 26 / 85%); }
+.error-state[hidden] { display: none; }
+.error-mark { display: grid; width: 22px; height: 22px; flex: 0 0 auto; place-items: center; border: 1px solid #f07867; border-radius: 50%; color: #f07867; font: 12px var(--mono); }
+.error-state strong { font-size: 12px; }
+.error-state p { margin: 5px 0 0; color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+
+.controlbar { bottom: 0; min-height: 76px; border-top: 1px solid var(--line); background: linear-gradient(90deg, rgb(20 28 26 / 34%), rgb(20 28 26 / 84%)); }
+.asset-readout { display: flex; gap: 12px; align-items: center; color: var(--ink); font: 10px var(--mono); }
+.readout-key { margin-right: 4px; }
+.readout-separator { color: var(--muted); }
+.walk-speed { display: flex; gap: 12px; align-items: center; color: var(--muted); font: 10px var(--mono); }
+.walk-speed input { width: 116px; accent-color: var(--accent); cursor: pointer; }
+.walk-speed output { min-width: 48px; color: var(--ink); text-align: right; }
+.vr-entry { min-width: 148px; min-height: 42px; display: flex; justify-content: flex-end; align-items: center; }
+#VRButton { position: static !important; width: auto !important; height: 42px !important; padding: 0 20px !important; border: 1px solid var(--accent) !important; border-radius: 0 !important; background: var(--accent) !important; color: #18201d !important; font: 600 11px 'Manrope', sans-serif !important; letter-spacing: .02em !important; }
+#VRButton:hover { background: #f0b583 !important; }
+#VRButton:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .topbar, .controlbar { padding: 0 18px; }
+  .topbar { height: 64px; }
+  .wordmark { gap: 8px; font-size: 9px; }
+  .wordmark-mark { width: 24px; }
+  .telemetry { gap: 7px; font-size: 9px; }
+  .scene-label { top: 25%; left: 22px; }
+  h1 { font-size: 42px; }
+  .scene-meta { max-width: 230px; line-height: 1.6; }
+  .load-state, .error-state { left: 22px; bottom: 106px; }
+  .controlbar { min-height: 102px; padding-top: 10px; padding-bottom: 10px; gap: 6px 12px; flex-wrap: wrap; align-content: center; }
+  .asset-readout { gap: 7px; font-size: 9px; }
+  .asset-readout { flex: 1 1 100%; min-width: 0; }
+  .readout-key { display: none; }
+  .walk-speed { gap: 6px; font-size: 8px; }
+  .walk-speed { flex: 1 1 auto; min-width: 0; }
+  .walk-speed input { width: auto; min-width: 48px; flex: 1 1 auto; }
+  .walk-speed output { min-width: 40px; font-size: 8px; }
+  .vr-entry { min-width: 128px; flex: 0 0 128px; }
+  #VRButton { height: 40px !important; padding: 0 12px !important; font-size: 10px !important; }
+}

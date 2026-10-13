@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17211f" />
+    <meta name="description" content="Visualizador WebXR para o cenário indoor do Blender." />
+    <title>Indoor | WebXR Walkthrough</title>
+  </head>
+  <body>
+    <main class="viewport" id="viewport" aria-label="Visualização do cenário 3D">
+      <div class="scene-grid" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="wordmark" href="./" aria-label="WebXR Walkthrough">
+          <span class="wordmark-mark" aria-hidden="true">W</span>
+          <span>WEBXR <b>/</b> WALKTHROUGH</span>
+        </a>
+        <div class="telemetry" aria-live="polite">
+          <span class="status-dot" id="status-dot"></span>
+          <span id="status-text">Preparando cena</span>
+          <span class="telemetry-divider"></span>
+          <span id="performance">-- FPS</span>
+        </div>
+      </header>
+      <section class="scene-label" aria-label="Cena atual">
+        <p class="eyebrow">CENA 01 <span>·</span> BLENDER / GLB</p>
+        <h1>Indoor</h1>
+        <p class="scene-meta" id="scene-meta">Carregando geometria e materiais</p>
+      </section>
+      <div class="load-state" id="load-state" role="status">
+        <span class="load-line"><span id="load-bar"></span></span>
+        <span id="load-label">Lendo indoor.glb</span>
+      </div>
+      <div class="error-state" id="error-state" role="alert" hidden>
+        <span class="error-mark" aria-hidden="true">!</span>
+        <div>
+          <strong>Não foi possível abrir a cena</strong>
+          <p id="error-message">Verifique o arquivo e tente novamente.</p>
+        </div>
+      </div>
+      <footer class="controlbar">
+        <div class="asset-readout">
+          <span class="readout-key">ASSET</span>
+          <span>INDOOR.GLB</span>
+          <span class="readout-separator">/</span>
+          <span id="mesh-count">-- MESHES</span>
+        </div>
+        <label class="walk-speed" for="walk-speed">
+          <span>VELOCIDADE</span>
+          <input id="walk-speed" type="range" min="0.5" max="3" step="0.1" value="1.6" />
+          <output id="walk-speed-value" for="walk-speed">1.6 m/s</output>
+        </label>
+        <div class="vr-entry" id="vr-entry"></div>
+      </footer>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
